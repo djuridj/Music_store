@@ -1,0 +1,23 @@
+{%  extends 'music_store/main.html' %}
+
+{% block content %}
+
+<style>
+    .card {
+        display: inline-block
+    }
+</style>
+
+{% for album in albums %}
+    <div class="card" style="width: 18rem;">
+        <img src="{{album.album_cover.url}}" class="card-img-top" alt="...">
+        <div class="card-body">
+        <h5 class="card-title">{{album.name}}</h5>
+        <h6 colour="blue">{{album.artist}}</h6>
+        <h6>{{album.year}}</h6>
+        <a href="{% url 'album' album.id %}" class="btn btn-primary">Details</a>
+        </div>
+    </div>
+{% endfor %}
+
+{% endblock %}

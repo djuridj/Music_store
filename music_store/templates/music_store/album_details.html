@@ -1,0 +1,24 @@
+{%  extends 'music_store/main.html' %}
+
+{% block content %}
+
+<a>{{album.name}}</a>
+<div class="card mb-3" style="max-width: 540px;">
+    <div class="row no-gutters">
+      <div class="col-md-6">
+        <img src="{{album.album_cover.url}}" class="card-img">
+      </div>
+      <div class="col-md-4">
+        <div class="card-body">
+          <h5 class="card-title">{{album.name}}</h5>
+          <p class="card-text">{{album.artist}}</p>
+          <p class="card-text">{{album.year}}</p>
+          <p class="card-text">{{album.record_label}}</p>
+          <p/>{% for type in album.typeFormat.all %}{{ type }}  {% endfor %}</p>
+          <p/>{% for genre in album.genre.all %}{{ genre }}  {% endfor %}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+{% endblock %}
