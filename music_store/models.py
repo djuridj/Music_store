@@ -27,7 +27,7 @@ class TypeFormat(models.Model):
 class Album(models.Model):
     name = models.CharField(max_length=200)
     artist = models.CharField(max_length=200)
-    year = models.IntegerField(max_length=4)
+    year = models.IntegerField()
     record_label = models.CharField(max_length=100)
     album_cover = models.ImageField(null=True, blank=True)
     genre = models.ManyToManyField(Genre)
