@@ -1,24 +1,48 @@
 {%  extends 'music_store/main.html' %}
 
+{% block searchpanel %}{% endblock %}
+
 {% block albums %}
 
-<a>{{album.name}}</a>
-<div class="card mb-3" style="max-width: 540px;">
+<div class="card mb-7" >
     <div class="row no-gutters">
-      <div class="col-md-6">
+      <div class="col-md-6" style="margin: 25px;">
         <img src="{{album.album_cover.url}}" class="card-img">
       </div>
       <div class="col-md-4">
         <div class="card-body">
-          <h5 class="card-title">{{album.name}}</h5>
-          <p class="card-text">{{album.artist}}</p>
+          <h5 class="card-title" style="color:#8a1906; font-weight: bold;">{{album.name}}</h5>
+          <h5 class="card-title">{{album.artist}}</h5>
+          <br>
+          <h2 style="font-weight: bold;">{{album.price}} $</h2>
+          <br>
+          <br>
+          <br>
           <p class="card-text">{{album.year}}</p>
           <p class="card-text">{{album.record_label}}</p>
-          <p/>{% for type in album.typeFormat.all %}{{ type }}  {% endfor %}</p>
-          <p/>{% for genre in album.genre.all %}{{ genre }}  {% endfor %}</p>
+          <h6 class="card-text">Formats: {% for type in album.typeFormat.all %}|  {{ type }}  {% endfor %}</h6>
+          <h6 class="card-text">Genres: {% for genre in album.genre.all %}|  {{ genre }}  {% endfor %}</h6>
         </div>
       </div>
     </div>
   </div>
+
+  {% for comment in comments %}
+    {% if comment.id == comment.relates_to.id %}
+    <div class="media" style="margin-top: 10px;">
+      <div class="media-body" style="border-left: 6px solid #8a1906;">
+        <h5 class="mt-0">by: {{comment.user.username}}</h5>
+          {{comment.comments}}
+      </div>
+    </div>
+    {% else %}
+    <div class="media" style="margin-top: 10px;">
+      <div class="media-body" style="border-left: 6px solid #8a1906; margin-left: 30px">
+        <h5 class="mt-0">by: {{comment.user.username}}</h5>
+          {{comment.comments}}
+      </div>
+    </div>
+    {% endif %}
+  {% endfor %}
 
 {% endblock %}

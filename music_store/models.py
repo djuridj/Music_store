@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth.models import User
 
 # Create your models here.
 
@@ -32,7 +33,18 @@ class Album(models.Model):
     album_cover = models.ImageField(null=True, blank=True)
     genre = models.ManyToManyField(Genre)
     typeFormat = models.ManyToManyField(TypeFormat)
+    in_stock = models.IntegerField(default=0, blank=True, null=True)
+    avaliable = models.BooleanField(default=True, blank=True, null=True)
+    number_of_ratings = models.IntegerField(default=0)
+    average_rating = models.FloatField(default=0.0, blank=True, null=True)
+    price = models.FloatField(default=0.0)
 
     def __str__(self):
         return self.name
 
+class Comment(models.Model):
+    comments = models.CharField(max_length=2000)
+    album = models.ForeignKey(Album, null=True, on_delete=models.SET_NULL)
+    user = models.ForeignKey(User, null=True, on_delete=models.SET_NULL)
+    relates_to = models.ForeignKey('self', null=True, on_delete=models.SET_NULL)
+    

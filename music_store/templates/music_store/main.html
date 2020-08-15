@@ -9,6 +9,23 @@
 </head>
 <body>
 
+<style>
+  .dark-mode {
+    background-color: black;
+    color: white;
+  }
+
+  input[type='checkbox']:checked .card { 
+    background-color: black; 
+  }
+</style>
+
+<script>
+  function myFunction() {
+    var element1 = document.body;
+    element1.classList.toggle("dark-mode");
+}
+</script>
 
 <div class="container">
     <div class="row-12">
@@ -17,35 +34,42 @@
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
               <span class="navbar-toggler-icon"></span>
             </button>
-          
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
               <ul class="navbar-nav mr-auto">
                 <li class="nav-item active">
                   <a class="nav-link" href="{% url 'home' %}">Home <span class="sr-only">(current)</span></a>
                 </li>
-                <li class="nav-item">
-                  <a class="nav-link" href="#">Link</a>
-                </li>
               </ul>
-              {% block search %}
-
+              {% block searchpanel %}
+              <form method="get">
+                {{myFilter.form}}
+                <button class="btn btn-primary" type="submit">Search</button>
+              </form>
               {% endblock %}
             </div>
-          </nav>
+            <div class="custom-control custom-switch">
+                  <input type="checkbox" class="custom-control-input" id="darkSwitch" onclick="myFunction();">
+                  <label class="custom-control-label" for="darkSwitch"></label>
+            </div>
     </div>
+    <br>
     <div class="row">
       <div class="col-2">
         <div class="row-2">
           <div class="list-group">
             <h5>Genres</h5>
+            <a href="{% url 'home' %}"  class="list-group-item list-group-item-action" style="font-weight: bold;">All</a>
             {% for genre in genres %}
               <a href="{% url 'genre' genre.id %}" class="list-group-item list-group-item-action">{{genre.genre}}</a>
             {% endfor %}  
           </div>
         </div>
+        <br>
+        <br>
         <div class="row-2">
           <div class="list-group">
             <h5>Types</h5>
+            <a href="{% url 'home' %}"  class="list-group-item list-group-item-action" style="font-weight: bold;">All</a>
             {% for type in types %}
               <a href="{% url 'type' type.id %}" class="list-group-item list-group-item-action">{{type.types}}</a>
             {% endfor %}  

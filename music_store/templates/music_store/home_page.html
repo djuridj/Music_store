@@ -1,13 +1,6 @@
 {%  extends 'music_store/main.html' %}
 
-{% block search %}
 
-  <form method="get">
-    {{myFilter.form}}
-    <button class="btn btn-primary" type="submit">Search</button>
-  </form>
-
-{% endblock %}
 
 {% block albums %}
 
@@ -22,12 +15,15 @@
   <div class="collapse show" id="grid"  data-parent="#myGroup">
     {% for album in albums %}
       <div class="card" style="width: 14rem; display: inline-block;">
-          <img src="{{album.album_cover.url}}" class="card-img-top">
+          <a href="{% url 'album' album.id %}"><img src="{{album.album_cover.url}}" class="card-img-top"></a>
           <div class="card-body">
-          <h5 class="card-title">{{album.name}}</h5>
-          <h6 colour="blue">{{album.artist}}</h6>
-          <h6>{{album.year}}</h6>
-          <a href="{% url 'album' album.id %}" class="btn btn-primary">Details</a>
+            <a href="{% url 'album' album.id %}"><h5 class="card-title" style="color:#8a1906; font-weight: bold;">{{album.name}}</h5></a>
+          <h6 class="card-title">{{album.artist}}</h6>
+          <br>
+          <h6 style="font-weight: bold;">{{album.price}} $</h6>
+          <br>
+          <p>{{album.record_label}}, {{album.year}}</p>
+          <a href="" class="btn btn-primary" style="background-color: #8a1906; font-weight: bolder;">Add to basket</a>
           </div>
       </div>
     {% endfor %}
@@ -39,14 +35,17 @@
             <div class="col-3">
               <img src="{{album.album_cover.url}}" class="card-img">
             </div>
-            <div class="col-4">
+            <div class="col-7">
               <div class="card-body">
-                <h5 class="card-title">{{album.name}}</h5>
+                <h5 class="card-title" style="color:#8a1906; font-weight: bold;">{{album.name}}</h5>
                 <p class="card-text">{{album.artist}}</p>
-                <p class="card-text">{{album.year}}</p>
-                <p class="card-text">{{album.record_label}}</p>
+                <br>
+                <h6 style="font-weight: bold;">{{album.price}} $</h6>
+                <br>
+                <p>{{album.year}}, {{album.record_label}}</p>
               </div>
             </div>
+            <a href="" class="btn btn-primary" style="background-color: #8a1906; font-weight: bolder; position: absolute; right: 12px; bottom: 12px;">Add to basket</a>
           </div>
         </div>
       {% endfor %}
