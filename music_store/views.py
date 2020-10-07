@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 from .filters import AlbumFilter
+from django.utils.translation import gettext as _
 
 # Create your views here.
 from .models import *
@@ -51,3 +52,4 @@ def type(request, pk):
     context = {'albums':albums, 'genres':genres, 'types':types, 
     'typePk': typePk, 'myFilter':myFilter}
     return render(request, 'music_store/album_genre_type.html', context)
+

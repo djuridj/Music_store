@@ -1,16 +1,20 @@
 {%  extends 'music_store/main.html' %}
 
-
-
 {% block albums %}
 
 {% load static %}
 
 <div id="myGroup">
-  <button class="btn dropdown" data-toggle="collapse" data-target="#grid"><i class="icon-chevron-right"></i><img src="{% static 'images/grid.png' %}"></button>
-  <button class="btn dropdown" data-toggle="collapse" data-target="#list"><i class="icon-chevron-right"></i><img src="{% static 'images/list.png' %}"></button>
-  
-
+  <div class="row">
+    <div class="col" style="display: inline-flex;">
+      <button class="btn dropdown" data-toggle="collapse" data-target="#grid"><i class="icon-chevron-right"></i><img src="{% static 'images/grid.png' %}"></button>
+      <button class="btn dropdown" data-toggle="collapse" data-target="#list"><i class="icon-chevron-right"></i><img src="{% static 'images/list.png' %}"></button>
+    </div>
+    <form method="get">
+      {{myFilter.form}}
+      <button class="button" type="submit"><img width="23 px" src="{% static 'images/search.jpg' %}"></button>
+    </form>
+  </div>
 <div class="accordion-group">
   <div class="collapse show" id="grid"  data-parent="#myGroup">
     {% for album in albums %}

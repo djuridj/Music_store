@@ -43,6 +43,7 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.middleware.locale.LocaleMiddleware', 
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -105,6 +106,18 @@ AUTH_PASSWORD_VALIDATORS = [
 # https://docs.djangoproject.com/en/3.0/topics/i18n/
 
 LANGUAGE_CODE = 'en-us'
+LANGUAGE_COOKIE_NAME = 'en-us'
+LANGUAGES = [
+    ('en-us', 'English'),
+    ('sr-latn', 'Srpski'),
+]
+
+LOCALE_PATHS = (
+    # translation files on the server must be in the same folder as this
+    # settings file and this path must point to the translations.
+    # Dev server works anyway with this path. 
+    os.path.join(os.path.dirname(__file__), "locale"),
+)
 
 TIME_ZONE = 'UTC'
 
