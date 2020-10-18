@@ -1,8 +1,10 @@
 {%  extends 'music_store/main.html' %}
-
+{% load rest_framework %}
 {% block albums %}
 
 {% load static %}
+
+<p>{{ albums_api }}</p>
 
 <div id="myGroup">
   <div class="row">
