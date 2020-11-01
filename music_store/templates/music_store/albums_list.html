@@ -1,0 +1,219 @@
+{%  extends 'music_store/main.html' %}
+{% load static %}
+
+{% block leftpane %}
+{% endblock %}
+
+{% block albumslist %}
+<head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+	<link href="https://fonts.googleapis.com/css?family=Montserrat&display=swap" rel="stylesheet">
+	<style type="text/css">
+
+		#task-container{
+          max-width: inherit;
+		  box-shadow: 0 10px 25px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
+		  background-color: #fff;
+		  
+		  margin-top:20px;
+		  margin-bottom:100px;
+
+		  justify-content: space-around;
+		  align-items: flex-start;
+
+		}
+
+		.flex-wrapper{
+			display: flex;
+		}
+
+		.task-wrapper{
+		  	margin:5px;
+		  	padding: 5px;
+		  	padding:10px;
+		  	cursor: pointer;
+		  	border-bottom: 1px solid  #e9e9e9;
+		  	color: #686868;
+			}
+
+	</style>
+
+</head>
+<body>
+    
+    <div class="container">
+		<div id="task-container">
+			<div id="form-wrapper">
+				<form id="form">
+					<div class="flex-wrapper">
+                        <!-- ovo nekako izvuci da bude kao popup kad treba novi album da se doda-->
+                        <div style="flex: 6">
+                            <input id="title" class="form-control" type="text" name="title" placeholder="Add album">
+                            <div style="flex: 1">
+                                <input id="submit" class="btn" type="submit" >
+                            </div>
+                        </div>
+                        <!-- Button trigger modal -->
+                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+                            Add new album
+                        </button>
+					</div>
+				</form>
+			</div>
+			<div id="list-wrapper">
+			</div>	
+		</div>
+	</div>
+
+
+    
+  
+  <!-- Modal -->
+  <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Add new album</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+            <form>
+                <div class="form-group row">
+                  <label for="inputLabel3" class="col-sm-2 col-form-label">Name</label>
+                  <div class="col-sm-10">
+                    <input type="label" class="form-control" id="inputLabel3" placeholder="Name">
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <label for="inputLabel3" class="col-sm-2 col-form-label">Artist</label>
+                  <div class="col-sm-10">
+                    <input type="label" class="form-control" id="inputLabel3" placeholder="Artist">
+                  </div>
+                </div>
+                <div class="form-group row">
+                    <label for="inputLabel3" class="col-sm-2 col-form-label">Year</label>
+                    <div class="col-sm-10">
+                      <input type="label" class="form-control" id="inputLabel3" placeholder="Year">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="inputLabel3" class="col-sm-2 col-form-label">Label</label>
+                    <div class="col-sm-10">
+                      <input type="label" class="form-control" id="inputLabel3" placeholder="Label">
+                    </div>
+                </div>
+                <form>
+                    <div class="form-group">
+                      <label for="exampleFormControlFile1">Album cover</label>
+                      <input type="file" class="form-control-file" id="exampleFormControlFile1">
+                    </div>
+                </form>
+                <!-- for petlja za zanrove, treba mi api get all za zanrove -->
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
+                    <label class="form-check-label" for="defaultCheck1">
+                      Genre 1
+                    </label>
+                  </div>
+                  <div class="form-check">
+                    <input class="form-check-input" type="checkbox" value="" id="defaultCheck2">
+                    <label class="form-check-label" for="defaultCheck2">
+                      Genre 2
+                    </label>
+                </div>
+                <!-- for petlja za formate, treba mi api get all za zanrove -->
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
+                    <label class="form-check-label" for="defaultCheck1">
+                      Format 1
+                    </label>
+                  </div>
+                  <div class="form-check">
+                    <input class="form-check-input" type="checkbox" value="" id="defaultCheck2">
+                    <label class="form-check-label" for="defaultCheck2">
+                      Format 2
+                    </label>
+                </div>
+                <div class="form-group row">
+                    <label for="inputLabel3" class="col-sm-2 col-form-label">In Stock</label>
+                    <div class="col-sm-10">
+                      <input type="label" class="form-control" id="inputLabel3" placeholder="0">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="inputLabel3" class="col-sm-2 col-form-label">Price</label>
+                    <div class="col-sm-10">
+                      <input type="label" class="form-control" id="inputLabel3" placeholder="$$$">
+                    </div>
+                </div>
+              </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary">Save</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+<script type="text/javascript">
+
+
+    buildList()
+
+    function buildList(){
+        var wrapper = document.getElementById('list-wrapper')
+        var url = 'http://127.0.0.1:8000/api/albums/'
+
+        fetch(url)
+        .then((resp) => resp.json())
+        .then(function(data){
+            console.log('Data:', data)
+            var albums = data
+            for (var i in albums){
+                var name = `<span class="title">${albums[i].name}</span>`
+                var item =
+                    ` <div id="data-row-${i}" class="task-wrapper flex-wrapper">
+                        <img src="${albums[i].album_cover}" style="width: 105px;">
+                        <div style="flex:7; padding:10px">
+                            ${albums[i].artist} - ${name}
+                        </div>
+                        <div style="flex:1">
+                            <button class="btn btn-sm btn-outline-info edit">Edit</button>
+                        </div>
+                        <div style="flex:1">
+                            <button class="btn btn-sm btn-outline-dark delete">Delete</button>
+                        </div>
+                    </div>`
+                wrapper.innerHTML += item
+            }
+        })
+    }
+
+    var form = document.getElementById('form-wrapper')
+    form.addEventListener('submit', function(e){
+        e.preventDefault()
+        console.log('Form submitted')
+    })
+
+    function deleteItem(item){
+			console.log('Delete clicked')
+			fetch(`http://127.0.0.1:8000/api/album-delete/${item.id}/`, {
+				method:'DELETE', 
+				headers:{
+					'Content-type':'application/json',
+					'X-CSRFToken':csrftoken,
+				}
+			}).then((response) => {
+				buildList()
+			})
+	}
+
+
+</script>
+</body>
+{% endblock %}

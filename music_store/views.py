@@ -53,3 +53,5 @@ def type(request, pk):
     'typePk': typePk, 'myFilter':myFilter}
     return render(request, 'music_store/album_genre_type.html', context)
 
+def albumsList(request):
+    return render(request, 'music_store/albums_list.html')
