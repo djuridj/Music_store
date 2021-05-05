@@ -7,4 +7,5 @@ urlpatterns = [
     path('genre/<str:pk>/', views.genre,name="genre"),
     path('type/<str:pk>/', views.type,name="type"),
     path('album-list/', views.albumsList,name="albums_list"),
+    path('advanced-search/', views.songList,name="song_list")
 ]

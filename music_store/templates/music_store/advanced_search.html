@@ -1,0 +1,42 @@
+{%  extends 'music_store/main.html' %}
+
+
+
+{% block songs %}
+
+{% load static %}
+
+
+    <form method="get">
+        {% for field in myFilter2.form %}
+        <div class="form-group">
+            <div class="col">{{ field.label }}</div>
+            <div class="col">{{ field }}</div>
+        </div>
+        {% endfor %}
+        <div>
+            <button class="button" type="submit">Search</button>
+            <button class="button" href="{% url 'song_list' %}">Reset Search</button>
+        </div>
+    </form>
+    <table class="table table-striped table-hover">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Artist</th>
+            <th scope="col">Title</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for song in songs %}
+          <tr>
+            <th scope="row">{{song.track_number}}</th>
+            <td>{{song.album.artist}}</td>
+            <td>{{song.title}}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+
+
+{% endblock %}
