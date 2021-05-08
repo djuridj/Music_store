@@ -52,16 +52,20 @@
     <thead>
       <tr>
         <th scope="col">#</th>
-        <th scope="col">Artist</th>
         <th scope="col">Title</th>
+        <th></th>
       </tr>
     </thead>
     <tbody>
       {% for song in songs %}
       <tr>
         <th scope="row">{{song.track_number}}</th>
-        <td>{{song.album.artist}}</td>
         <td>{{song.title}}</td>
+        <th>
+          <audio controls preload="auto">
+            <source src="{{ song.audio_file.url }}" type="audio/mp3">
+          </audio>
+        </th>
       </tr>
       {% endfor %}
     </tbody>

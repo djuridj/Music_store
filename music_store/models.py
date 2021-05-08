@@ -47,7 +47,7 @@ class Album(models.Model):
     name = models.CharField(max_length=200)
     year = models.IntegerField()
     record_label = models.CharField(max_length=100)
-    album_cover = models.ImageField(null=True, blank=True)
+    album_cover = models.ImageField(upload_to='album_covers/', null=True, blank=True)
     genre = models.ManyToManyField(Genre)
     typeFormat = models.ManyToManyField(TypeFormat)
     #in_stock = models.IntegerField(default=0, blank=True, null=True)
@@ -85,12 +85,48 @@ class Vocal(models.Model):
     def __str__(self):
         return self.vocal
 
+
+class TrackTempo(models.Model):
+    TEMPO = (
+        ('Fast', 'Fast'),
+        ('Moderate', 'Moderate'),
+        ('Multiple', 'Multiple'),
+        ('Slow', 'Slow'),
+        ('Very Fast', 'Very Fast'),
+        ('Very Slow', ' Very Slow'),
+    )
+    tempo = models.CharField(max_length=50, null=True, choices=TEMPO)
+
+    def __str__(self):
+        return self.tempo
+
+class NotableInstrument(models.Model):
+    INSTRUMENT = (
+        ('Accordion', 'Accordion'),
+        ('Acoustic Guitar', 'Acoustic Guitar'),
+        ('Acoustic Piano', 'Acoustic Piano'),
+        ('Banjo', 'Banjo'),
+        ('Bass', 'Bass'),
+        ('Choir', ' Choir'),
+        ('Clarinet', ' Clarinet'),
+        ('Electric Guitar', ' Electric Guitar'),
+        ('Electric Piano', ' Electric Piano'),
+        ('Flute', ' Flute'),
+        ('Saxophone', ' Saxophone'),
+        ('Synthesiser', ' Synthesiser'),
+        ('Violin', ' Violin'),
+        ('Drums', ' Drums'),
+    )
+    instrument = models.CharField(max_length=50, null=True, choices=INSTRUMENT)
+
+    def __str__(self):
+        return self.instrument
+
 class Song(models.Model):
     title = models.CharField(max_length=100, null=True)
     album = models.ForeignKey(Album, null=True, on_delete=models.SET_NULL)
     track_number = models.IntegerField(null=True)
-    feature_artists = models.ManyToManyField(Artist)
-    
+    feature_artists = models.ManyToManyField(Artist)   
     lyrics = models.TextField(blank=True, null=True)
     duration = models.CharField(max_length=100, null=True)
     genre = models.ManyToManyField(Genre)
@@ -98,6 +134,10 @@ class Song(models.Model):
     vocal = models.ManyToManyField(Vocal)
     language = models.CharField(max_length=100, null=True)
     key_words = models.ManyToManyField(KeyWords)
+    track_tempo = models.ManyToManyField(TrackTempo)
+    notable_instruments = models.ManyToManyField(NotableInstrument)
+    audio_file = models.FileField(upload_to='audio/',blank=True, null=True)
+
 
     def __str__(self):
         return self.album.artist.name + ' - ' + self.title + ' (' + self.album.name + ')'
