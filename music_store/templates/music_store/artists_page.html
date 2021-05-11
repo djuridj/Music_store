@@ -1,0 +1,39 @@
+{%  extends 'music_store/main.html' %}
+
+{% load static %}
+
+{% block artist %}
+
+<div class="card mb-7" >
+    <div class="row no-gutters">
+      <div class="col-md-6" style="margin: 25px;">
+        <img src="{{ artist.picture.url }}" class="card-img">
+      </div>
+      <div class="col-md-4">
+        <div class="card-body">
+          <h5 class="card-title" style="color:#8a1906; font-weight: bold;">{{ artist.name }}</h5>
+          <br>
+          <p class="card-text">{{ artist.biography }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="collapse show" id="grid"  data-parent="#myGroup">
+    {% for album in albums %}
+      <div class="card" style="width: 14rem; display: inline-block;">
+          <a href="{% url 'album' album.id %}"><img src="{{album.album_cover.url}}" class="card-img-top"></a>
+          <div class="card-body">
+            <a href="{% url 'album' album.id %}"><h5 class="card-title" style="color:#8a1906; font-weight: bold;">{{album.name}}</h5></a>
+            <a href="{% url 'artistFromAlbum' album.artist.id %}"><h6  class="card-title" style="color:black;">{{album.artist}}</h6></a>
+          <br>
+          <h6 style="font-weight: bold;">{{album.price}} $</h6>
+          <br>
+          <p>{{album.record_label}}, {{album.year}}</p>
+          <a href="" class="btn btn-primary" style="background-color: #8a1906; font-weight: bolder;">Add to basket</a>
+          </div>
+      </div>
+    {% endfor %}
+  </div>
+
+{% endblock %}
+

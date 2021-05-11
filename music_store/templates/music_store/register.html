@@ -1,0 +1,63 @@
+{% load static %}
+
+<head>
+	<meta charset="utf-8">
+	<title>Sign Up/Sign In</title>
+	<!-- Main Style Css -->
+    <link rel="stylesheet" href="{% static 'css/register_login.css' %}"/>
+</head>
+
+<body class="form-v8">
+    <div class="page-content">
+        <div class="form-v8-content">
+            <div class="form-right">
+                <div class="headline">REGISTER ACCOUNT</div>
+                <br>
+                <!-- Register part -->
+                <form class="form-detail" method="POST"  action="" >
+                    {% csrf_token %}
+                    <div class="tabcontent" id="sign-up">
+                        <div class="form-row">
+                            <label class="form-row-inner">
+                                <input type="text" name="username" id="full_name" class="input-text"  required>
+                                <span class="label">{{ form.username.label }}</span>
+                                <span class="border"></span>
+                            </label>
+                        </div>
+                        <div class="form-row">
+                            <label class="form-row-inner">
+                                <input type="text" name="email" id="your_email" class="input-text" required>
+                                <span class="label">{{ form.email.label }}</span>
+                                <span class="border"></span>
+                            </label>
+                        </div>
+                        <div class="form-row">
+                            <label class="form-row-inner">
+                                <input type="password" name="password1" id="password" class="input-text" required>
+                                <span class="label">{{ form.password1.label }}</span>
+                                <span class="border"></span>
+                            </label>
+                        </div>
+                        <div class="form-row">
+                            <label class="form-row-inner">
+                                <input type="password" name="password2" id="comfirm_password" class="input-text" required>
+                                <span class="label">{{ form.password2.label }}</span>
+                                <span class="border"></span>
+                            </label>
+                        </div>
+                        <div class="form-row-last" >
+                            <input type="submit" name="register" class="register" value="Register" style="display: block; margin:auto">
+                        </div>
+                        <br>
+                        <div style="display: block; margin:auto; text-align:center;">
+                            Already have an account? <a href="{% url 'login' %}">Login</a>
+                        </div>
+                    </div>
+                </form>
+            
+            </div>
+        </div>
+    </div>
+
+</body>
+

@@ -38,6 +38,7 @@ class TypeFormat(models.Model):
 class Artist(models.Model):
     name = models.CharField(max_length=200)
     biography = models.TextField(blank=True, null=True)
+    picture = models.ImageField(upload_to='artists/', null=True, blank=True)
 
     def __str__(self):
         return self.name
