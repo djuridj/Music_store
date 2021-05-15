@@ -48,6 +48,9 @@
                         <div class="form-row-last" >
                             <input type="submit" name="register" class="register" value="Register" style="display: block; margin:auto">
                         </div>
+
+                        {{form.errors}}
+                        
                         <br>
                         <div style="display: block; margin:auto; text-align:center;">
                             Already have an account? <a href="{% url 'login' %}">Login</a>

@@ -1,3 +1,4 @@
+from django.db.models.fields import DurationField
 import django_filters
 from django_filters import CharFilter
 from django_filters import MultipleChoiceFilter
@@ -16,12 +17,13 @@ class AlbumFilter(django_filters.FilterSet):
 
 # advanced song search
 class SongFilter(django_filters.FilterSet):
-    feature_artists = CharFilter(field_name='feature_artists', lookup_expr='icontains', label='Feature Artists')
+    feature_artists = CharFilter(field_name='feature_artists__name', lookup_expr='icontains', label='Feature Artists')
     album = CharFilter(field_name='album__name', lookup_expr='icontains', label='Album')
     lyrics = CharFilter(field_name='lyrics', lookup_expr='icontains', label='Lyrics')
     key_words = CharFilter(field_name='key_words__key_word', lookup_expr='icontains', label='Key Words')
+    artist = CharFilter(field_name='album__artist__name', lookup_expr='icontains')
     
     class Meta:
         model = Song
-        exclude = ['track_number', 'audio_file']
+        exclude = ['track_number', 'audio_file', 'duration']
         

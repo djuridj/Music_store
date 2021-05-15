@@ -4,6 +4,7 @@ from music_store import views
 urlpatterns = [
     path('register/', views.registerPage, name="register"),
     path('login/', views.loginPage, name="login"),
+    path('logout/', views.logoutUser, name="logout"),
 
     path('', views.home, name="home"),
     path('album/<str:pk>/', views.album,name="album"),

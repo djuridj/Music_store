@@ -128,16 +128,18 @@ class Song(models.Model):
     album = models.ForeignKey(Album, null=True, on_delete=models.SET_NULL)
     track_number = models.IntegerField(null=True)
     feature_artists = models.ManyToManyField(Artist)   
+    language = models.CharField(max_length=100, null=True)
     lyrics = models.TextField(blank=True, null=True)
     duration = models.CharField(max_length=100, null=True)
     genre = models.ManyToManyField(Genre)
     mood = models.ManyToManyField(Mood)
     vocal = models.ManyToManyField(Vocal)
-    language = models.CharField(max_length=100, null=True)
-    key_words = models.ManyToManyField(KeyWords)
+    
+    
     track_tempo = models.ManyToManyField(TrackTempo)
     notable_instruments = models.ManyToManyField(NotableInstrument)
     audio_file = models.FileField(upload_to='audio/',blank=True, null=True)
+    key_words = models.ManyToManyField(KeyWords)
 
 
     def __str__(self):
