@@ -7,13 +7,15 @@ from .models import *
 
 # filter for Album search
 class AlbumFilter(django_filters.FilterSet):
-    
-    name = CharFilter(field_name='name', lookup_expr='icontains', label='Name')
-    artist = CharFilter(field_name='artist__name', lookup_expr='icontains', label='Artist')
-    year = CharFilter(field_name='year', lookup_expr='icontains', label='Year')
+    q = CharFilter(method='custom_filter', label='Search')
+
     class Meta:
         model = Album
-        fields = ['name', 'artist', 'year']
+        fields = ['q']
+
+    def custom_filter(self, queryset, name, value):
+        return Album.objects.filter(Q(name__icontains=value) | Q(artist__name__icontains=value) | Q(year__icontains=value) | Q(record_label__icontains=value))
+        
 
 # advanced song search
 class SongFilter(django_filters.FilterSet):

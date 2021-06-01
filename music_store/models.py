@@ -144,3 +144,4 @@ class Song(models.Model):
 
     def __str__(self):
         return self.album.artist.name + ' - ' + self.title + ' (' + self.album.name + ')'
+

@@ -4,6 +4,7 @@
 
 {% block artist %}
 
+
 <div class="card mb-7" >
     <div class="row no-gutters">
       <div class="col-md-6" style="margin: 25px;">
@@ -29,7 +30,7 @@
           <h6 style="font-weight: bold;">{{album.price}} $</h6>
           <br>
           <p>{{album.record_label}}, {{album.year}}</p>
-          <a href="" class="btn btn-primary" style="background-color: #8a1906; font-weight: bolder;">Add to basket</a>
+          <button data-album="{{album.id}}" data-action="add" class="btn btn-outline-secondary add-btn update-cart-grid" style="background-color: #8a1906; font-weight: bolder;">Add to basket</button>
           </div>
       </div>
     {% endfor %}

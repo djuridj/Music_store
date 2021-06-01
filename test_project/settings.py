@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'music_store',
     'music_store_api',
+    'orders'
 ]
 
 MIDDLEWARE = [
