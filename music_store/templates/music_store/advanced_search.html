@@ -99,9 +99,11 @@
   <tbody>
     {% for song in songs %}
     <tr>
-      <td>{{song.album.artist}}</td>
+      
+      <td><a href="{% url 'artist' song.album.artist.id %}" style="color:black;">{{song.album.artist}}</a></td>
       <td>{{song.title}}</td>
-      <td><a href="{% url 'albumFromSong' song.album.id %}">{{song.album.name}}</a></td>
+      
+      <td><a href="{% url 'album' song.album.id %}" style="color:black;">{{song.album.name}}</a></td>
       <td>
         <audio controls preload="auto">
           <source src="{{ song.audio_file.url }}" type="audio/mp3">

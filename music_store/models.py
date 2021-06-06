@@ -51,12 +51,16 @@ class Album(models.Model):
     album_cover = models.ImageField(upload_to='album_covers/', null=True, blank=True)
     genre = models.ManyToManyField(Genre)
     typeFormat = models.ManyToManyField(TypeFormat)
-    #in_stock = models.IntegerField(default=0, blank=True, null=True)
-    #avaliable = models.BooleanField(default=True, blank=True, null=True)
-    #number_of_ratings = models.IntegerField(default=0)
-    #average_rating = models.FloatField(default=0.0, blank=True, null=True)
-    price = models.FloatField(default=0.0)
+    price = models.DecimalField(max_digits=7, decimal_places=2)
     artist = models.ForeignKey(Artist, null=True, on_delete=models.SET_NULL)
+
+    @property
+    def imageURL(self):
+        try:
+            url = self.album_cover.url
+        except:
+            url = ''
+        return url
 
     def __str__(self):
         return self.name + ' (' + self.artist.name + ')'
@@ -125,7 +129,7 @@ class NotableInstrument(models.Model):
 
 class Song(models.Model):
     title = models.CharField(max_length=100, null=True)
-    album = models.ForeignKey(Album, null=True, on_delete=models.SET_NULL)
+    album = models.ForeignKey(Album, null=True, on_delete=models.CASCADE)
     track_number = models.IntegerField(null=True)
     feature_artists = models.ManyToManyField(Artist)   
     language = models.CharField(max_length=100, null=True)

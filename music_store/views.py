@@ -8,6 +8,8 @@ from django.contrib.auth.decorators import login_required
 
 from .forms import CreateUserForm
 from .filters import AlbumFilter, SongFilter
+from orders.utils import cookieCart, cartData, guestOrder
+from orders.models import Order
 
 from .models import *
 
@@ -51,28 +53,33 @@ def logoutUser(request):
 
 # home page
 # redirects to login page if not logged in
-@login_required(login_url='login')
+#@login_required(login_url='login')
 def home(request):
     albums = Album.objects.all()
     genres =  Genre.objects.all()
     types = TypeFormat.objects.all()
+
+    data = cartData(request)
+    cartItems = data['cartItems']
     
     myFilter = AlbumFilter(request.GET, queryset=albums)
     albums = myFilter.qs
     
-    context = {'albums':albums, 'genres':genres, 'types':types,
-    'myFilter':myFilter}
+    context = {'albums':albums, 'genres':genres, 'types':types, 'myFilter':myFilter, 'cartItems':cartItems}
     return render(request, 'music_store/home_page.html', context)
 
 # page with particular album details, comments, songs
-@login_required(login_url='login')
+#@login_required(login_url='login')
 def album(request, pk):
     album = Album.objects.get(id=pk)
     genres =  Genre.objects.all()
     types = TypeFormat.objects.all()
     songs = album.song_set.all()
-    context = {'album':album, 'genres':genres, 'types':types, 
-    'songs':songs}
+
+    data = cartData(request)
+    cartItems = data['cartItems']
+
+    context = {'album':album, 'genres':genres, 'types':types, 'songs':songs, 'cartItems':cartItems}
     return render(request, 'music_store/album_details.html', context)
 
 # album list by genre
@@ -81,10 +88,14 @@ def genre(request, pk):
     genres =  Genre.objects.all()
     albums = Album.objects.filter(genre=genrePk)
     types = TypeFormat.objects.all()
+
     myFilter = AlbumFilter(request.GET, queryset=albums)
     albums = myFilter.qs
-    context = {'albums':albums, 'genres':genres, 'types':types, 
-    'genrePk': genrePk, 'myFilter': myFilter}
+
+    data = cartData(request)
+    cartItems = data['cartItems']
+
+    context = {'albums':albums, 'genres':genres, 'types':types, 'genrePk': genrePk, 'myFilter': myFilter, 'cartItems':cartItems}
     return render(request, 'music_store/album_genre_type.html', context)
 
 # album list by type
@@ -93,10 +104,14 @@ def type(request, pk):
     genres =  Genre.objects.all()
     albums = Album.objects.filter(typeFormat=typePk)
     types = TypeFormat.objects.all()
+
     myFilter = AlbumFilter(request.GET, queryset=albums)
     albums = myFilter.qs
-    context = {'albums':albums, 'genres':genres, 'types':types, 
-    'typePk': typePk, 'myFilter':myFilter}
+
+    data = cartData(request)
+    cartItems = data['cartItems']
+
+    context = {'albums':albums, 'genres':genres, 'types':types, 'typePk': typePk, 'myFilter':myFilter, 'cartItems':cartItems}
     return render(request, 'music_store/album_genre_type.html', context)
 
 def albumsList(request):
@@ -105,28 +120,27 @@ def albumsList(request):
 # album list by artist
 def songList(request):
     songs = Song.objects.all()
+    artists = Artist.objects.all()
+    albums = Album.objects.all()
     myFilter2 = SongFilter(request.GET, queryset=songs)
     songs = myFilter2.qs
-    context = {'songs':songs, 'myFilter2':myFilter2}
+
+    data = cartData(request)
+    cartItems = data['cartItems']
+    
+    context = {'songs':songs, 'myFilter2':myFilter2, 'cartItems':cartItems}
     return render(request, 'music_store/advanced_search.html', context)
 
-# page with particular album details, songs
-def albumFromSong(request, pk):
-    songPk = Song.objects.get(id=pk)
-    album = Album.objects.filter(song=songPk)
-    genres =  Genre.objects.all()
-    types = TypeFormat.objects.all()
-    songs = album.song_set.all()
-    context = {'songPk':songPk, 'album':album, 'genres':genres, 'types':types, 
-    'songs':songs}
-    return render(request, 'music_store/album_details.html', context)
 
-# page with album details, and his albums
-def artistFromAlbum(request, pk):
+# page with artist details, and his albums
+def artist(request, pk):
     artist = Artist.objects.get(id=pk)
     genres =  Genre.objects.all()
     types = TypeFormat.objects.all()
     albums = artist.album_set.all()
-    context = {'artist':artist, 'genres':genres, 'types':types, 
-    'albums':albums}
+
+    data = cartData(request)
+    cartItems = data['cartItems']
+
+    context = {'artist':artist, 'genres':genres, 'types':types, 'albums':albums, 'cartItems':cartItems}
     return render(request, 'music_store/artists_page.html', context)

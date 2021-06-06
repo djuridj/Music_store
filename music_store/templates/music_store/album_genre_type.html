@@ -7,12 +7,12 @@
 <div id="myGroup">
   <div class="row">
     <div class="col" style="display: inline-flex;">
-      <button class="btn dropdown" data-toggle="collapse" data-target="#grid"><i class="icon-chevron-right"></i><img src="{% static 'images/grid.png' %}"></button>
-      <button class="btn dropdown" data-toggle="collapse" data-target="#list"><i class="icon-chevron-right"></i><img src="{% static 'images/list.png' %}"></button>
+      <button class="btn dropdown" data-toggle="collapse" data-target="#grid"><i class="icon-chevron-right"></i><img src="{% static 'files/images/grid.png' %}"></button>
+      <button class="btn dropdown" data-toggle="collapse" data-target="#list"><i class="icon-chevron-right"></i><img src="{% static 'files/images/list.png' %}"></button>
     </div>
     <form method="get">
       {{myFilter.form}}
-      <button class="button" type="submit"><img src="{% static 'images/search.jpg' %}"></button>
+      <button class="button" type="submit"><img src="{% static 'files/images/search.jpg' %}"></button>
     </form>
   </div>
   <div class="col">
@@ -29,7 +29,7 @@
           <br>
           <h6 style="font-weight: bold;">{{album.price}} $</h6>
           <br>
-          <a href="" class="btn btn-primary" style="background-color: #8a1906; font-weight: bolder;">Add to basket</a>
+          <button data-album="{{album.id}}" data-action="add" class="btn btn-outline-secondary add-btn update-cart-grid" style="background-color: #8a1906; font-weight: bolder;">Add to basket</button>
           </div>
       </div>
     {% endfor %}
@@ -49,6 +49,7 @@
                 <p class="card-text">{{album.record_label}}</p>
               </div>
             </div>
+            <button data-album="{{album.id}}" data-action="add" class="btn btn-outline-secondary add-btn update-cart-list" style="background-color: #8a1906; font-weight: bolder; position: absolute; right: 12px; bottom: 12px;">Add to cart</button>
           </div>
         </div>
       {% endfor %}

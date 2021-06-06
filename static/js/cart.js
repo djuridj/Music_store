@@ -7,8 +7,8 @@ for (i = 0; i < updateBtnsGrid.length; i++) {
         console.log('albumId:', albumId, 'action:', action)
         console.log('USER', user)
 
-        if(user == 'AnonymusUser'){
-            console.log('Not logged in')
+        if(user == 'AnonymousUser'){
+            addCookieItem(albumId, action)
         }else{
             updateUserOrder(albumId, action)
         }
@@ -24,14 +24,37 @@ for (i = 0; i < updateBtnsList.length; i++) {
         console.log('albumId:', albumId, 'action:', action)
         console.log('USER', user)
 
-        if(user == 'AnonymusUser'){
-            console.log('Not logged in')
-        }else{
+        if(user == 'AnonymousUser'){
+            addCookieItem(albumId, action)
+        } else {
             updateUserOrder(albumId, action)
         }
     })
 }
 
+
+function addCookieItem(albumId, action){
+    console.log('user is not authenticated')
+    if(action == 'add'){
+        if(cart[albumId] == undefined){
+            cart[albumId] = {'quantity':1}
+        } else {
+            cart[albumId]['quantity'] += 1
+        }
+    }
+    if(action == 'remove'){
+        cart[albumId]['quantity'] -= 1
+
+        if(cart[albumId]['quantity'] <= 0){
+            console.log('remove item')
+            delete cart[albumId]
+        }
+    }
+    console.log('cart:', cart)
+    document.cookie = 'cart=' + JSON.stringify(cart) + ";domain=;path=/"
+
+    location.reload()
+}
 
 function updateUserOrder(albumId, action){
     console.log('user logged in')
