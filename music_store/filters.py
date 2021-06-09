@@ -3,6 +3,7 @@ import django_filters
 from django_filters import CharFilter
 from django_filters import MultipleChoiceFilter
 from django.db.models import Q
+from django_filters.filters import ChoiceFilter
 from .models import *
 
 # filter for Album search
@@ -27,5 +28,5 @@ class SongFilter(django_filters.FilterSet):
     
     class Meta:
         model = Song
-        exclude = ['track_number', 'audio_file', 'duration']
+        exclude = ['track_number', 'audio_file']
         

@@ -120,15 +120,15 @@ def albumsList(request):
 # album list by artist
 def songList(request):
     songs = Song.objects.all()
-    artists = Artist.objects.all()
-    albums = Album.objects.all()
+    durations = Song.objects.values('duration').distinct()
+    decades = Song.objects.values('decade').distinct().order_by('decade').reverse()
     myFilter2 = SongFilter(request.GET, queryset=songs)
     songs = myFilter2.qs
 
     data = cartData(request)
     cartItems = data['cartItems']
     
-    context = {'songs':songs, 'myFilter2':myFilter2, 'cartItems':cartItems}
+    context = {'songs':songs, 'myFilter2':myFilter2, 'cartItems':cartItems, 'durations':durations, 'decades':decades}
     return render(request, 'music_store/advanced_search.html', context)
 
 

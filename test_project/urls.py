@@ -28,7 +28,6 @@ urlpatterns += i18n_patterns(
     path('admin/', admin.site.urls),
     path('', include('music_store.urls')),
     path('', include('orders.urls')),
-    path('api/', include('music_store_api.urls')),
     prefix_default_language=False
 )
 

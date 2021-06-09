@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+import mutagen
 
 # Create your models here.
 
@@ -138,14 +139,56 @@ class Song(models.Model):
     genre = models.ManyToManyField(Genre)
     mood = models.ManyToManyField(Mood)
     vocal = models.ManyToManyField(Vocal)
-    
+    decade = models.CharField(max_length=100,blank=True,null=True)    
     
     track_tempo = models.ManyToManyField(TrackTempo)
     notable_instruments = models.ManyToManyField(NotableInstrument)
     audio_file = models.FileField(upload_to='audio/',blank=True, null=True)
+
     key_words = models.ManyToManyField(KeyWords)
 
+    @property
+    def get_song_duration_in_seconds(self):
+        af = self.audio_file
+        audio_info = mutagen.File(af).info
+        duration_seconds = int(audio_info.length)
+        return duration_seconds
 
+    @property
+    def get_song_duration_desciption(self):
+        sec = self.get_song_duration_in_seconds
+        if sec <= 120:
+            return 'less then 2 mins'
+        elif sec > 120 and sec <= 240:
+            return '2 to 4 mins'
+        elif sec > 240 and sec <= 360:
+            return '4 to 6 mins'
+        else:
+            return 'more then 6 mins'
+
+    @property
+    def get_era(self):
+        year = self.album.year
+        if year >= 1960 and year < 1970:
+            return '1960s'
+        elif year >= 1970 and year < 1980:
+            return '1970s'
+        elif year >= 1980 and year < 1990:
+            return '1980s'
+        elif year >= 1990 and year < 2000:
+            return '1990s'
+        elif year >= 2000 and year < 2010:
+            return '2000s'
+        elif year >= 2010 and year < 2020:
+            return '2010s'
+        elif year >= 2020:
+            return '2020s'
+
+    def save(self, *args, **kwargs):
+          self.duration = self.get_song_duration_desciption
+          self.decade = self.get_era
+          super(Song, self).save(*args, **kwargs)
+    
     def __str__(self):
         return self.album.artist.name + ' - ' + self.title + ' (' + self.album.name + ')'
 
