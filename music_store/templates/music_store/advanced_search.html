@@ -121,7 +121,7 @@
   </div>
   </form>
   <br>
-  <button class="button" style="display: block; margin:auto; text-align:center;"><a href="{% url 'song_list' %}" style="color:black;">Reset Search</a></button>
+  <button class="button" style="display: block; margin:auto; text-align:center;"><a href="{% url 'song_list' %}" class="text-dark">Reset Search</a></button>
   <br>
   <br>
 </container>
@@ -138,13 +138,12 @@
   <tbody>
     {% for song in songs %}
     <tr>
-      
-      <td><a href="{% url 'artist' song.album.artist.id %}" style="color:black;">{{song.album.artist}}</a></td>
+      <td><a href="{% url 'artist' song.album.artist.id %}" class="text-dark">{{song.album.artist}}</a></td>
       <td>{{song.title}}</td>
       
-      <td><a href="{% url 'album' song.album.id %}" style="color:black;">{{song.album.name}}</a></td>
+      <td><a href="{% url 'album' song.album.id %}" class="text-dark">{{song.album.name}}</a></td>
       <td>
-        <audio controls preload="auto">
+        <audio controls preload="auto" style="width: 450px; display: block;">
           <source src="{{ song.audio_file.url }}" type="audio/mp3">
         </audio>
       </td>

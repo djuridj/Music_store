@@ -35,3 +35,8 @@
     padding:5px 0px;
     margin:5px 5px 5px 0px;
 }
+
+.audio {
+    width: 550px; 
+    display: block;
+}

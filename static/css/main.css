@@ -1,3 +1,9 @@
 a:hover {
     text-decoration: none;
+    color:brown;
+}
+
+p:hover {
+    text-decoration: none;
+    color:brown;
 }

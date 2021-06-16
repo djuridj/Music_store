@@ -56,6 +56,9 @@ def logoutUser(request):
 #@login_required(login_url='login')
 def home(request):
     albums = Album.objects.all()
+    albumsByPrice = Album.objects.all().order_by('price')
+    albumsByPriceReversed = Album.objects.all().order_by('price').reverse()
+    albumsByArtist = Album.objects.all().order_by('artist__name')
     genres =  Genre.objects.all()
     types = TypeFormat.objects.all()
 
@@ -65,7 +68,7 @@ def home(request):
     myFilter = AlbumFilter(request.GET, queryset=albums)
     albums = myFilter.qs
     
-    context = {'albums':albums, 'genres':genres, 'types':types, 'myFilter':myFilter, 'cartItems':cartItems}
+    context = {'albums':albums, 'genres':genres, 'types':types, 'myFilter':myFilter, 'cartItems':cartItems, 'albumsByPrice':albumsByPrice, 'albumsByPriceReversed':albumsByPriceReversed, 'albumsByArtist':albumsByArtist}
     return render(request, 'music_store/home_page.html', context)
 
 # page with particular album details, comments, songs

@@ -32,6 +32,57 @@ for (i = 0; i < updateBtnsList.length; i++) {
     })
 }
 
+var updateBtnsList = document.getElementsByClassName('update-cart-grid-by-price');
+console.log("listCollection:", updateBtnsList)
+for (i = 0; i < updateBtnsList.length; i++) {
+    updateBtnsList[i].addEventListener("click", function(){
+        var albumId = this.dataset.album
+        var action = this.dataset.action
+        console.log('albumId:', albumId, 'action:', action)
+        console.log('USER', user)
+
+        if(user == 'AnonymousUser'){
+            addCookieItem(albumId, action)
+        } else {
+            updateUserOrder(albumId, action)
+        }
+    })
+}
+
+var updateBtnsList = document.getElementsByClassName('update-cart-grid-by-price-reversed');
+console.log("listCollection:", updateBtnsList)
+for (i = 0; i < updateBtnsList.length; i++) {
+    updateBtnsList[i].addEventListener("click", function(){
+        var albumId = this.dataset.album
+        var action = this.dataset.action
+        console.log('albumId:', albumId, 'action:', action)
+        console.log('USER', user)
+
+        if(user == 'AnonymousUser'){
+            addCookieItem(albumId, action)
+        } else {
+            updateUserOrder(albumId, action)
+        }
+    })
+}
+
+var updateBtnsList = document.getElementsByClassName('update-cart-grid-by-artist-name');
+console.log("listCollection:", updateBtnsList)
+for (i = 0; i < updateBtnsList.length; i++) {
+    updateBtnsList[i].addEventListener("click", function(){
+        var albumId = this.dataset.album
+        var action = this.dataset.action
+        console.log('albumId:', albumId, 'action:', action)
+        console.log('USER', user)
+
+        if(user == 'AnonymousUser'){
+            addCookieItem(albumId, action)
+        } else {
+            updateUserOrder(albumId, action)
+        }
+    })
+}
+
 
 function addCookieItem(albumId, action){
     console.log('user is not authenticated')
