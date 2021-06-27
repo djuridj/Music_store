@@ -97,10 +97,15 @@
       }
     }
     for (var i = 0; i < text.length; i++) {
-
+      if (text[i].classList.contains("text-light")) {
+        text[i].classList.add("text-dark")
+        text[i].classList.remove("text-light")
+        console.log('textD', text[i])
+      } else {
         text[i].classList.add("text-light")
         text[i].classList.remove("text-dark")
-        console.log('textD', text[i])
+        console.log('textL', text[i])
+      }
     }
     element1.classList.toggle("dark-mode");
 }
@@ -126,20 +131,6 @@
                   <img width="30px" src="{% static 'files/images/dark_mode.png' %}"></img>
             </div>
             <div class="col"></div>
-            <!--
-            <form action="{% url 'change_language' %}" method="post">
-              {% csrf_token %}
-              <select name="language">   
-                  {% get_available_languages as LANGUAGES %}
-                  {% for language in LANGUAGES %}       
-                  <option value="{{ language.0 }}" {% if language.0 == LANGUAGE_CODE %} selected{% endif %}>
-                      {{ language.0|language_name_local }} ({{ language.0 }})
-                  </option>
-                  {% endfor %}
-              </select>
-              <input type="submit" value="Change language">
-          </form>
-          -->
           <div class="col">
             <div class="row">Hello, {{request.user}}</div>
             {% if user == AnonymousUser %}
@@ -203,7 +194,8 @@
     </div>    
  </div>
 
-
+ {% block cart_script %}
  <script type="text/javascript" src="{% static 'js/cart.js' %}"></script>
+ {% endblock %}
 </body>
 </html>

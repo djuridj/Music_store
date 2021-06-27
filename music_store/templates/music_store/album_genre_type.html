@@ -9,18 +9,31 @@
     <div class="col" style="display: inline-flex;">
       <button class="btn dropdown" data-toggle="collapse" data-target="#grid"><i class="icon-chevron-right"></i><img src="{% static 'files/images/grid.png' %}"></button>
       <button class="btn dropdown" data-toggle="collapse" data-target="#list"><i class="icon-chevron-right"></i><img src="{% static 'files/images/list.png' %}"></button>
+      <div class="col">
+        <div class="row">Sort By:</div>
+        <div class="row">
+          <select id="mystuff" style="height: fit-content;">
+            <option value="0">-- Choose One --</option>       
+            <option value="opt1">Price (Ascending)</option>
+            <option value="opt2">Price (Descending)</option>
+            <option value="opt3">Artist [A-Z]</option>
+          </select>
+        </div>
+      </div>
     </div>
-    <div class="col" >
+      <div class="col" >
+        <div class="row">
+        <form method="get">
+          {{myFilter.form}}
+          <button class="button" type="submit"><img width="23 px" src="{% static 'files/images/search.jpg' %}"></button>
+        </form>
+      </div>
       <div class="row">
-      <form method="get">
-        {{myFilter.form}}
-        <button class="button" type="submit"><img width="23 px" src="{% static 'files/images/search.jpg' %}"></button>
-      </form>
+        <a href="{% url 'song_list' %}"><p style="color:#06708a; font-weight: bold;">Advanced song search</p></a>
+      </div>
     </div>
-    <div class="row">
-      <a href="{% url 'song_list' %}"><p style="color:#8a1906; font-weight: bold;">Advanced song search</p></a>
-    </div>
-  </div>
+</div>
+
 <div class="accordion-group">
   <div class="collapse show" id="grid"  data-parent="#myGroup">
     {% for album in albums %}
@@ -57,6 +70,90 @@
         </div>
       {% endfor %}
     </div>
+
+    <!-- sorting groups -->
+    <div class="mystaff_hide mystaff_opt1">
+      {% for album in albumsByPrice %}
+        <div class="card" style="width: 14rem; display: inline-block;">
+            <a href="{% url 'album' album.id %}"><img src="{{album.album_cover.url}}" class="card-img-top"></a>
+            <div class="card-body">
+              <a href="{% url 'album' album.id %}"><h5 class="card-title" style="color:#8a1906; font-weight: bold;">{{album.name}}</h5></a>
+              <a href="{% url 'artist' album.artist.id %}"><h6  class="card-title" style="color:black;">{{album.artist}}</h6></a>
+            <br>
+            <h6 style="font-weight: bold;">{{album.price}} $</h6>
+            <br>
+            <p>{{album.record_label}}, {{album.year}}</p>
+            <button data-album="{{album.id}}" data-action="add" class="btn btn-outline-secondary add-btn update-cart-grid-by-price" style="background-color: #28a745; color: #fff; font-weight: bolder;">Add to basket</button>
+            </div>
+        </div>
+      {% endfor %}
+    </div>
+    <div class="mystaff_hide mystaff_opt2">
+      {% for album in albumsByPriceReversed %}
+        <div class="card" style="width: 14rem; display: inline-block;">
+            <a href="{% url 'album' album.id %}"><img src="{{album.album_cover.url}}" class="card-img-top"></a>
+            <div class="card-body">
+              <a href="{% url 'album' album.id %}"><h5 class="card-title" style="color:#8a1906; font-weight: bold;">{{album.name}}</h5></a>
+              <a href="{% url 'artist' album.artist.id %}"><h6  class="card-title" style="color:black;">{{album.artist}}</h6></a>
+            <br>
+            <h6 style="font-weight: bold;">{{album.price}} $</h6>
+            <br>
+            <p>{{album.record_label}}, {{album.year}}</p>
+            <button data-album="{{album.id}}" data-action="add" class="btn btn-outline-secondary add-btn update-cart-grid-by-price-reversed" style="background-color: #28a745; color: #fff; font-weight: bolder;">Add to basket</button>
+            </div>
+        </div>
+      {% endfor %}
+    </div>
+    <div class="mystaff_hide mystaff_opt3">
+      {% for album in albumsByArtist %}
+        <div class="card" style="width: 14rem; display: inline-block;">
+            <a href="{% url 'album' album.id %}"><img src="{{album.album_cover.url}}" class="card-img-top"></a>
+            <div class="card-body">
+              <a href="{% url 'album' album.id %}"><h5 class="card-title" style="color:#8a1906; font-weight: bold;">{{album.name}}</h5></a>
+              <a href="{% url 'artist' album.artist.id %}"><h6  class="card-title" style="color:black;">{{album.artist}}</h6></a>
+            <br>
+            <h6 style="font-weight: bold;">{{album.price}} $</h6>
+            <br>
+            <p>{{album.record_label}}, {{album.year}}</p>
+            <button data-album="{{album.id}}" data-action="add" class="btn btn-outline-secondary add-btn update-cart-grid-by-artist-name" style="background-color: #28a745; color: #fff; font-weight: bolder;">Add to basket</button>
+            </div>
+        </div>
+      {% endfor %}
+    </div>
   </div>
+  </div>
+
+  <script type="text/javascript">
+    $('.mystaff_hide').addClass('collapse');
+  
+    //on change hide all divs linked to select and show only linked to selected option
+    $('#mystuff').change(function(){
+        //Saves in a variable the wanted div
+        var selector = '.mystaff_' + $(this).val();
+        console.log(selector)
+  
+        //hide all elements
+        $('.mystaff_hide').collapse('hide');
+        $('.collapse').collapse('hide');
+  
+        //show only element connected to selected option
+        $(selector).collapse('show');
+    });
+  
+    //on change hide all divs linked to select and show only linked to selected option
+    $('#myGroup').change(function(){
+        //Saves in a variable the wanted div
+        var selector = 'collapse' + $(this).val();
+        console.log(selector)
+  
+        //hide all elements
+        $('.mystaff_hide').collapse('hide');
+        $('.collapse').collapse('hide');
+  
+        //show only element connected to selected option
+        $(selector).collapse('show');
+    });
+  
+  </script>
 
 {% endblock %}

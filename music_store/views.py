@@ -5,12 +5,14 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib import messages
 from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.decorators import login_required
+from django_filters.filters import RangeFilter
 
 from .forms import CreateUserForm
 from .filters import AlbumFilter, SongFilter
 from orders.utils import cookieCart, cartData, guestOrder
 from orders.models import Order
 
+from .documents import SongDocument
 from .models import *
 
 def registerPage(request):
@@ -78,6 +80,7 @@ def album(request, pk):
     genres =  Genre.objects.all()
     types = TypeFormat.objects.all()
     songs = album.song_set.all()
+    songs = songs.order_by('track_number')
 
     data = cartData(request)
     cartItems = data['cartItems']
@@ -90,6 +93,9 @@ def genre(request, pk):
     genrePk =  Genre.objects.get(id=pk)
     genres =  Genre.objects.all()
     albums = Album.objects.filter(genre=genrePk)
+    albumsByPrice = albums.order_by('price')
+    albumsByPriceReversed = albums.order_by('price').reverse()
+    albumsByArtist = albums.order_by('artist__name')
     types = TypeFormat.objects.all()
 
     myFilter = AlbumFilter(request.GET, queryset=albums)
@@ -98,7 +104,7 @@ def genre(request, pk):
     data = cartData(request)
     cartItems = data['cartItems']
 
-    context = {'albums':albums, 'genres':genres, 'types':types, 'genrePk': genrePk, 'myFilter': myFilter, 'cartItems':cartItems}
+    context = {'albums':albums, 'genres':genres, 'types':types, 'genrePk': genrePk, 'myFilter': myFilter, 'cartItems':cartItems, 'albumsByPrice':albumsByPrice, 'albumsByPriceReversed':albumsByPriceReversed, 'albumsByArtist':albumsByArtist}
     return render(request, 'music_store/album_genre_type.html', context)
 
 # album list by type
@@ -106,6 +112,9 @@ def type(request, pk):
     typePk =  TypeFormat.objects.get(id=pk)
     genres =  Genre.objects.all()
     albums = Album.objects.filter(typeFormat=typePk)
+    albumsByPrice = albums.order_by('price')
+    albumsByPriceReversed = albums.order_by('price').reverse()
+    albumsByArtist = albums.order_by('artist__name')
     types = TypeFormat.objects.all()
 
     myFilter = AlbumFilter(request.GET, queryset=albums)
@@ -114,7 +123,7 @@ def type(request, pk):
     data = cartData(request)
     cartItems = data['cartItems']
 
-    context = {'albums':albums, 'genres':genres, 'types':types, 'typePk': typePk, 'myFilter':myFilter, 'cartItems':cartItems}
+    context = {'albums':albums, 'genres':genres, 'types':types, 'typePk': typePk, 'myFilter':myFilter, 'cartItems':cartItems,  'albumsByPrice':albumsByPrice, 'albumsByPriceReversed':albumsByPriceReversed, 'albumsByArtist':albumsByArtist}
     return render(request, 'music_store/album_genre_type.html', context)
 
 def albumsList(request):
@@ -122,16 +131,20 @@ def albumsList(request):
 
 # album list by artist
 def songList(request):
-    songs = Song.objects.all()
-    durations = Song.objects.values('duration').distinct()
-    decades = Song.objects.values('decade').distinct().order_by('decade').reverse()
-    myFilter2 = SongFilter(request.GET, queryset=songs)
+    q = request.GET.get('q')
+    if q:
+        songsq = SongDocument.search().query("multi_match", query=q, type='most_fields', fields=["title", "lyrics", "album.name", "album.artist.name"])
+    else:
+        songsq = ''
+    
+    songs2 = Song.objects.all()
+    myFilter2 = SongFilter(request.GET, queryset=songs2)
     songs = myFilter2.qs
 
     data = cartData(request)
     cartItems = data['cartItems']
     
-    context = {'songs':songs, 'myFilter2':myFilter2, 'cartItems':cartItems, 'durations':durations, 'decades':decades}
+    context = {'songs':songs, 'songsq':songsq, 'myFilter2':myFilter2, 'cartItems':cartItems}
     return render(request, 'music_store/advanced_search.html', context)
 
 

@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 import mutagen
+import librosa
 
 # Create your models here.
 
@@ -133,18 +134,17 @@ class Song(models.Model):
     album = models.ForeignKey(Album, null=True, on_delete=models.CASCADE)
     track_number = models.IntegerField(null=True)
     feature_artists = models.ManyToManyField(Artist)   
-    language = models.CharField(max_length=100, null=True)
+    language = models.CharField(max_length=100,null=True)
     lyrics = models.TextField(blank=True, null=True)
-    duration = models.CharField(max_length=100, null=True)
+    duration = models.CharField(max_length=100,blank=True,null=True)
     genre = models.ManyToManyField(Genre)
     mood = models.ManyToManyField(Mood)
     vocal = models.ManyToManyField(Vocal)
     decade = models.CharField(max_length=100,blank=True,null=True)    
-    
-    track_tempo = models.ManyToManyField(TrackTempo)
     notable_instruments = models.ManyToManyField(NotableInstrument)
     audio_file = models.FileField(upload_to='audio/',blank=True, null=True)
-
+    bitrate = models.IntegerField(null=True,blank=True)
+    tempo = models.CharField(max_length=100,blank=True,null=True)
     key_words = models.ManyToManyField(KeyWords)
 
     @property
@@ -184,9 +184,33 @@ class Song(models.Model):
         elif year >= 2020:
             return '2020s'
 
+    
+    @property
+    def get_bpm(self):
+        y, sr = librosa.load(self.audio_file.path)
+        tempo, beat_frames = librosa.beat.beat_track(y=y, sr=sr)
+        return tempo
+
+    @property
+    def get_tempo(self):
+        bitrate = self.bitrate
+        if bitrate >= 0 and bitrate < 40:
+            return 'Very Slow'
+        elif bitrate >= 40 and bitrate < 70:
+            return 'Slow'
+        elif bitrate >= 70 and bitrate < 100:
+            return 'Moderate'
+        elif bitrate >= 100 and bitrate < 145:
+            return 'Fast'
+        else:
+            return 'Very Fast'
+        
+
     def save(self, *args, **kwargs):
           self.duration = self.get_song_duration_desciption
           self.decade = self.get_era
+          self.bitrate = self.get_bpm
+          self.tempo = self.get_tempo
           super(Song, self).save(*args, **kwargs)
     
     def __str__(self):

@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'music_store',
     'orders',
     'widget_tweaks',
+    'django_elasticsearch_dsl',
 ]
 
 MIDDLEWARE = [
@@ -145,3 +146,10 @@ STATICFILES_DIRS = [
 MEDIA_ROOT = os.path.join(BASE_DIR, 'static/files')
 
 # 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
+SITE_URL = "http://127.0.0.1:8000"
+
+ELASTICSEARCH_DSL={
+    'default': {
+        'hosts': 'localhost:9200'
+    },
+}

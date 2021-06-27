@@ -1,10 +1,10 @@
-from django.db.models.fields import DurationField
 import django_filters
 from django_filters import CharFilter
-from django_filters import MultipleChoiceFilter
+from django_filters.filters import AllValuesFilter, RangeFilter
+from django import forms
 from django.db.models import Q
-from django_filters.filters import ChoiceFilter
 from .models import *
+from .documents import SongDocument
 
 # filter for Album search
 class AlbumFilter(django_filters.FilterSet):
@@ -25,8 +25,16 @@ class SongFilter(django_filters.FilterSet):
     lyrics = CharFilter(field_name='lyrics', lookup_expr='icontains', label='Lyrics')
     key_words = CharFilter(field_name='key_words__key_word', lookup_expr='icontains', label='Key Words')
     artist = CharFilter(field_name='album__artist__name', lookup_expr='icontains')
-    
+    tempo = AllValuesFilter()
+    duration = AllValuesFilter()
+    decade = AllValuesFilter()
+
     class Meta:
         model = Song
         exclude = ['track_number', 'audio_file']
         
+    def __init__(self, *args, **kwargs):
+        super(SongFilter, self).__init__(*args, **kwargs)
+        # at sturtup user doen't push Submit button, and QueryDict (in data) is empty
+        if self.data == {}:
+            self.queryset = self.queryset.none()
