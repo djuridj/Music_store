@@ -92,21 +92,6 @@ class Vocal(models.Model):
     def __str__(self):
         return self.vocal
 
-
-class TrackTempo(models.Model):
-    TEMPO = (
-        ('Fast', 'Fast'),
-        ('Moderate', 'Moderate'),
-        ('Multiple', 'Multiple'),
-        ('Slow', 'Slow'),
-        ('Very Fast', 'Very Fast'),
-        ('Very Slow', ' Very Slow'),
-    )
-    tempo = models.CharField(max_length=50, null=True, choices=TEMPO)
-
-    def __str__(self):
-        return self.tempo
-
 class NotableInstrument(models.Model):
     INSTRUMENT = (
         ('Accordion', 'Accordion'),

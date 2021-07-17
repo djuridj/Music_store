@@ -41,7 +41,7 @@
           <a href="{% url 'album' album.id %}"><img src="{{album.album_cover.url}}" class="card-img-top"></a>
           <div class="card-body">
             <a href="{% url 'album' album.id %}"><h5 class="card-title" style="color:#8a1906; font-weight: bold;">{{album.name}}</h5></a>
-            <a href="{% url 'artist' album.artist.id %}"><h6 class="card-title">{{album.artist}}</h6></a>
+            <a href="{% url 'artist' album.artist.id %}"><h6 class="card-title" style="color:black;">{{album.artist}}</h6></a>
           <br>
           <h6 style="font-weight: bold;">{{album.price}} $</h6>
           <br>
@@ -60,7 +60,7 @@
             <div class="col-4">
               <div class="card-body">
                 <a href="{% url 'album' album.id %}"><h5 class="card-title" style="color:#8a1906; font-weight: bold;">{{album.name}}</h5></a>
-                <a href="{% url 'artist' album.artist.id %}"><p class="card-text">{{album.artist}}</p></a>
+                <a href="{% url 'artist' album.artist.id %}"><p class="card-text" style="color:black;">{{album.artist}}</p></a>
                 <p class="card-text">{{album.year}}</p>
                 <p class="card-text">{{album.record_label}}</p>
               </div>
