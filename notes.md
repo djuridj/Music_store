@@ -5,25 +5,10 @@
 
 #### Start Django app (audio files are missing, so it's not possible to stream music until those files are reuploaded)
 1. clone and open the app folder
-2. make migrations `python3 manage.py makemigrations`
-3. run the app - `python3 manage.py runserver`
-
-#### PIP's needed
-##### Rest is installed but not used atm
-`pip install djangorestframework`
-##### Markdown support for the browsable API.
-`pip install markdown`
-##### filters needed for advanced search
-`pip install django-filter`
-##### Used for BPM calculations
-`pip install librosa`
-##### Used for song durations
-`python3 -m pip install mutagen`
-##### Python imaging library
-`python3 -m pip install --upgrade Pillow`
-##### Templates rendering
-`pip install django-widget-tweaks`
-
+2. install requirments - `pip install requirements.txt`
+3. make migrations `python3 manage.py makemigrations`
+4. migrate - `python3 manage.py migrate`
+5. run the app - `python3 manage.py runserver`
 
 
 ### BUGS
